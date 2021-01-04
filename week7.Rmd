@@ -1,0 +1,49 @@
+---
+title: "week7.Rmd"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+# Mid-semester assignment
+
+setwd("~/TU Berlin/Semester 1/Data science for agent-based transport simulations/Mid-semester assignment")
+
+# Preparation
+install.packages("janitor")
+
+library(tidyverse)
+library(readxl)
+library(janitor)
+
+# Tidying the dataset
+ByQhrEntryExit_2019 <- read_excel("ByQhrEntryExit_2019.xlsx")
+
+BQEE19 <- ByQhrEntryExit_2019 %>% drop_na(...1) %>% row_to_names(row_number = 1)
+
+view(BQEE19)
+
+# Analysis 1 - Average entries and exits of all stations per weekday
+BQ_weekday <- BQEE19 %>% mutate(new_Total = as.numeric(BQEE19$Total)) %>% group_by(day) %>% summarise(avg_total = median(new_Total))
+
+view(BQ_weekday)
+
+ggplot(data = BQ_weekday, mapping = aes(x = day, y = avg_total)) +
+  geom_point()
+
+```
+
+# Erklärung
+## Teil 1
+### Teil 1.1
+
+Erklärung
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
